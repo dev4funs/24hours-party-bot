@@ -1,5 +1,6 @@
 import * as Tone from "tone";
 import houseware from "../samples/houseware_120BPM_BANDLAB";
+import blastBack from "../samples/blastBack_125BPM_BANDLAB";
 
 const getUrls = (instruments) => {
   let urls = {};
@@ -14,15 +15,16 @@ const getUrls = (instruments) => {
 class SamplerMachine {
   constructor() {
     // init variables
-    this.samples = houseware;
+    this.songIndex = 0;
+    this.samples = blastBack;
     this.tracks = null;
-    this.onPlayTrack = null;
+    this.onPlayTracks = null;
     this.notPlayTrack = null;
     this.isPlay = false;
     this.isLoaded = false;
     this.counter = 0;
     this.loop = null;
-    this.changeTime = 4;
+    this.changeTime = this.samples.changeTime;
 
     this.changeMap = [
       ["hold", 0.15],
@@ -47,8 +49,8 @@ class SamplerMachine {
     }).toDestination();
 
     // init first loop tracks
-    this.setTrack("Kick", "Kick 01");
-    this.setTrack("Pad", "Pad 01");
+    for (const { track, sample } of this.samples.initSample)
+      this.setTrack(track, sample);
 
     this.loop = new Tone.Loop((time) => {
       console.log("time", time);
@@ -70,7 +72,7 @@ class SamplerMachine {
 
   initTracks(instruments) {
     this.tracks = {};
-    this.onPlayTrack = new Set();
+    this.onPlayTracks = new Set();
     this.notPlayTrack = new Set();
     for (const key in instruments) {
       console.log(key);
@@ -83,14 +85,14 @@ class SamplerMachine {
   setTrack(trackName, sampleName) {
     console.log("setTrack", trackName, sampleName);
     this.tracks[trackName] = sampleName;
-    this.onPlayTrack.add(trackName);
+    this.onPlayTracks.add(trackName);
     this.notPlayTrack.delete(trackName);
   }
 
   stopTrack(trackName) {
     console.log("stopTrack", trackName);
     this.tracks[trackName] = "";
-    this.onPlayTrack.delete(trackName);
+    this.onPlayTracks.delete(trackName);
     this.notPlayTrack.add(trackName);
   }
 
@@ -113,19 +115,19 @@ class SamplerMachine {
   }
 
   break() {
-    const trackName = this.tracks["Kick"];
+    const trackName = this.tracks[this.samples.rootTrack];
     this.initTracks(this.samples.instruments);
-    this.setTrack("Kick", trackName);
+    this.setTrack(this.samples.rootTrack, trackName);
     this.addTrackSample();
     this.addTrackSample();
   }
 
   autoGenerator() {
-    console.log(this.onPlayTrack.size);
+    console.log(this.onPlayTracks.size);
     console.log(Object.keys(this.tracks).length);
     const trackLen = Object.keys(this.tracks).length;
     // let trackLen = 3;
-    const onPlayTrackLen = this.onPlayTrack.size;
+    const onPlayTrackLen = this.onPlayTracks.size;
     if (onPlayTrackLen < trackLen) {
       this.addTrackSample();
     } else if (onPlayTrackLen === trackLen) {
@@ -156,10 +158,10 @@ class SamplerMachine {
   }
 
   getRandomOnPlayTrackName() {
-    const onPlayTrackNames = [...this.onPlayTrack];
+    const onPlayTrackNames = [...this.onPlayTracks];
     if (onPlayTrackNames.length === 0) {
     } else {
-      return "Kick";
+      return this.samples.initSample[0].track;
     }
     return this.selectRandomItemFromArray(onPlayTrackNames);
   }
@@ -191,7 +193,7 @@ class SamplerMachine {
 
   getRandomOnPlayTrackNameAndLengthBiggerThan2() {
     const trackNames = [];
-    const onPlayTracks = [...this.onPlayTrack];
+    const onPlayTracks = [...this.onPlayTracks];
     for (const key of onPlayTracks) {
       if (this.samples.instruments[key].length >= 2) {
         trackNames.push(key);

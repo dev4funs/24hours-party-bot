@@ -84,6 +84,12 @@ const houseware = {
   },
   instrumentNum: 7,
   BPM: 120,
+  changeTime: 8,
+  initSample: [
+    { track: "Kick", sample: "Kick 01" },
+    { track: "Pad", sample: "Pad 01" },
+  ],
+  rootTrack: "Kick",
 };
 
 export default houseware;
