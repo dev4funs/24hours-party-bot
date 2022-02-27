@@ -1,4 +1,4 @@
-import DrumMachine from "./instrument/drum";
+import DrumMachine from "./instrument/sampler";
 import "./App.css";
 import { useEffect, useRef } from "react";
 import * as Tone from "tone";
@@ -31,20 +31,6 @@ function App() {
           }}
         >
           Play
-        </button>
-        <button
-          onClick={() => {
-            drum.current && drum.current.playSnare();
-          }}
-        >
-          Snare
-        </button>
-        <button
-          onClick={() => {
-            drum.current && drum.current.playKick();
-          }}
-        >
-          Kick
         </button>
         <button
           onClick={() => {
