@@ -1,6 +1,6 @@
 import * as Tone from "tone";
-import houseware from "../samples/houseware_120BPM_BANDLAB";
-import blastBack from "../samples/blastBack_125BPM_BANDLAB";
+import blastBack from "../samples/houseware_120BPM_BANDLAB";
+// import blastBack from "../samples/blastBack_125BPM_BANDLAB";
 
 const getUrls = (instruments) => {
   let urls = {};
@@ -180,27 +180,28 @@ class SamplerMachine {
 
   updateTrackSample() {
     const random = Math.floor(Math.random() * 2);
-    const trackNames = this.getRandomOnPlayTrackNameAndLengthBiggerThan2();
+    const trackNames = this.getRandomOnPlayTrackName();
     for (let i = 0; i <= random; i++) {
       const updateTrackName = this.selectRandomItemFromArray(trackNames);
       let sampleName = this.getRandomSampleFromTrack(updateTrackName);
-      while (sampleName === this.tracks[updateTrackName]) {
-        sampleName = this.getRandomSampleFromTrack(updateTrackName);
+      if (sampleName === this.tracks[updateTrackName]) {
+        this.stopTrack(updateTrackName);
+      } else {
+        this.setTrack(updateTrackName, sampleName);
       }
-      this.setTrack(updateTrackName, sampleName);
     }
   }
 
-  getRandomOnPlayTrackNameAndLengthBiggerThan2() {
-    const trackNames = [];
-    const onPlayTracks = [...this.onPlayTracks];
-    for (const key of onPlayTracks) {
-      if (this.samples.instruments[key].length >= 2) {
-        trackNames.push(key);
-      }
-    }
-    return trackNames;
-  }
+  // getRandomOnPlayTrackNameAndLengthBiggerThan2() {
+  //   const trackNames = [];
+  //   const onPlayTracks = [...this.onPlayTracks];
+  //   for (const key of onPlayTracks) {
+  //     if (this.samples.instruments[key].length >= 2) {
+  //       trackNames.push(key);
+  //     }
+  //   }
+  //   return trackNames;
+  // }
 
   reduceTrackSample() {
     const random = Math.floor(Math.random() * 2);

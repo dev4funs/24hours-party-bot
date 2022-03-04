@@ -1,4 +1,4 @@
-import DrumMachine from "./instrument/sampler";
+import SamplerMachine from "./instrument/sampler";
 import "./App.css";
 import { useEffect, useRef } from "react";
 import * as Tone from "tone";
@@ -7,7 +7,7 @@ function App() {
   const drum = useRef(null);
   useEffect(() => {
     if (drum.current === null) {
-      drum.current = new DrumMachine();
+      drum.current = new SamplerMachine();
     }
     return () => {
       drum.current = null;
