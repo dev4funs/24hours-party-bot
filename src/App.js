@@ -17,6 +17,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <select name="cars" id="cars">
+          <option value="blastBack">blastBack</option>
+          <option value="houseware">houseware</option>
+        </select>
         <button
           onClick={async () => {
             await Tone.start();

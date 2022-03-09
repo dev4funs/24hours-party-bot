@@ -1,6 +1,7 @@
 import * as Tone from "tone";
 import blastBack from "../samples/houseware_120BPM_BANDLAB";
 // import blastBack from "../samples/blastBack_125BPM_BANDLAB";
+// import blastBack from "../samples/jadehouse_118BPM_BANDLAB";
 
 const getUrls = (instruments) => {
   let urls = {};
@@ -27,9 +28,9 @@ class SamplerMachine {
     this.changeTime = this.samples.changeTime;
 
     this.changeMap = [
-      ["hold", 0.15],
+      ["hold", 0.05],
       ["update", 0.35],
-      ["reduce", 0.25],
+      ["reduce", 0.35],
       ["break", 0.25],
     ];
 
@@ -126,7 +127,6 @@ class SamplerMachine {
     console.log(this.onPlayTracks.size);
     console.log(Object.keys(this.tracks).length);
     const trackLen = Object.keys(this.tracks).length;
-    // let trackLen = 3;
     const onPlayTrackLen = this.onPlayTracks.size;
     if (onPlayTrackLen < trackLen) {
       this.addTrackSample();
@@ -180,28 +180,29 @@ class SamplerMachine {
 
   updateTrackSample() {
     const random = Math.floor(Math.random() * 2);
-    const trackNames = this.getRandomOnPlayTrackName();
+    const trackNames = this.getRandomOnPlayTrackNames();
     for (let i = 0; i <= random; i++) {
       const updateTrackName = this.selectRandomItemFromArray(trackNames);
-      let sampleName = this.getRandomSampleFromTrack(updateTrackName);
-      if (sampleName === this.tracks[updateTrackName]) {
+      if (this.samples.instruments[updateTrackName].length < 2) {
         this.stopTrack(updateTrackName);
       } else {
+        let sampleName = this.getRandomSampleFromTrack(updateTrackName);
+        while (sampleName === this.tracks[updateTrackName]) {
+          sampleName = this.getRandomSampleFromTrack(updateTrackName);
+        }
         this.setTrack(updateTrackName, sampleName);
       }
     }
   }
 
-  // getRandomOnPlayTrackNameAndLengthBiggerThan2() {
-  //   const trackNames = [];
-  //   const onPlayTracks = [...this.onPlayTracks];
-  //   for (const key of onPlayTracks) {
-  //     if (this.samples.instruments[key].length >= 2) {
-  //       trackNames.push(key);
-  //     }
-  //   }
-  //   return trackNames;
-  // }
+  getRandomOnPlayTrackNames() {
+    const trackNames = [];
+    const onPlayTracks = [...this.onPlayTracks];
+    for (const key of onPlayTracks) {
+      trackNames.push(key);
+    }
+    return trackNames;
+  }
 
   reduceTrackSample() {
     const random = Math.floor(Math.random() * 2);
