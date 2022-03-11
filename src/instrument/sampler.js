@@ -1,7 +1,7 @@
 import * as Tone from "tone";
-import blastBack from "../samples/houseware_120BPM_BANDLAB";
-// import blastBack from "../samples/blastBack_125BPM_BANDLAB";
-// import blastBack from "../samples/jadehouse_118BPM_BANDLAB";
+// import sample from "../samples/houseware_120BPM_BANDLAB";
+// import sample from "../samples/blastBack_125BPM_BANDLAB";
+import sample from "../samples/jadehouse_118BPM_BANDLAB";
 
 const getUrls = (instruments) => {
   let urls = {};
@@ -17,7 +17,7 @@ class SamplerMachine {
   constructor() {
     // init variables
     this.songIndex = 0;
-    this.samples = blastBack;
+    this.samples = sample;
     this.tracks = null;
     this.onPlayTracks = null;
     this.notPlayTrack = null;

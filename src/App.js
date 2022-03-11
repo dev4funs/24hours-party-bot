@@ -17,17 +17,17 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <select name="cars" id="cars">
+        {/* <select name="cars" id="cars">
           <option value="blastBack">blastBack</option>
           <option value="houseware">houseware</option>
-        </select>
+        </select> */}
         <button
           onClick={async () => {
             await Tone.start();
             console.log("init success");
           }}
         >
-          init audio
+          Init Audio
         </button>
         <button
           onClick={() => {
@@ -41,7 +41,7 @@ function App() {
             Tone.Transport.stop();
           }}
         >
-          stop
+          Stop
         </button>
       </header>
     </div>

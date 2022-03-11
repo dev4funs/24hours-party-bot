@@ -44,7 +44,7 @@ const jade = {
         id: 4,
         name: "Perc 04",
         url: "Jade+Perc+04-118BPM-BANDLAB_1.wav",
-        length: 4,
+        length: 16,
       },
       {
         id: 5,
@@ -116,7 +116,7 @@ const jade = {
         id: 1,
         name: "Choir 01",
         url: "Jade+Choir-118BPM-B%E2%99%AD+minor-BANDLAB.wav",
-        length: 8,
+        length: 16,
       },
     ],
     Bass: [
@@ -156,7 +156,7 @@ const jade = {
   },
   instrumentNum: 7,
   BPM: 118,
-  changeTime: 4,
+  changeTime: 8,
   initSample: [{ track: "Arp", sample: "Arp 01" }],
   rootTrack: "Beat",
 };
